@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrap{
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        h3{
+            background-color: rgb(65, 65, 65);
+            color: aliceblue;
+            line-height: 50px;
+            padding-left: 15px;
+        }
+        p{
+            padding-left: 18px;
+            font-size: 14px;
+        }
+        #wrap>form>div{
+            display: flex;
+            width: 100%;
+            background-color: rgb(243, 238, 231);
+            height: 45px;
+            align-items: center;
+        }
+        #wrap>form>div>input{
+            height: 50%;
+        }
+        form>input{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 10px;
+        }
+        #wrap>div{
+            position: absolute;
+            display: flex;
+            justify-content: flex-end;
+            background-color: rgb(192, 192, 192);
+            padding: 5px;
+            left: 50%;
+            transform: translate(-50%,350%);
+            top:100%;
+            width: 100%;
+        }
+        #wrap>div>img{
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        window.onload = ()=>{
+            var myform = document.querySelector('form');
+            myform.onsubmit = ()=>{
+                var pass = document.querySelector('input[type=password]').value;
+                if(pass.length==0){
+                    alert('비밀번호가 일치하지 않습니다. 다시 한번 확인해주세요.');
+                    return false;
+                }
+            }
+                
+        }
+    </script>
+</head>
+<body>
+    <div id='wrap'>
+        <h3>비밀번호입력</h3>
+        <p>글 작성시 입력한 비밀번호를 입력하세요.</p>
+        <form>
+            <div>
+                <div>
+                    <img src="http://bdmp-004.cafe24.com/cimg/txt_pass.gif" alt="">
+                </div>
+                <input type="password">
+            </div>
+            <input type="image" src='http://bdmp-004.cafe24.com/bizdemo99969/img/component/board/board_9/confirm.gif'>
+        </form>
+        <div>
+            <img onclick="window.close();" src="http://bdmp-004.cafe24.com/cimg/btn_close.gif" alt="">
+        </div>
+    </div>
+</body>
+</html>

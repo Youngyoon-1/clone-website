@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body, h1{
+            margin:0;
+            font-family: "Nanum Gothic", "Malgun Gothic", 돋움, 굴림, "Open Sans";
+        }
+        a{
+            text-decoration: none;
+        }
+        #sup-nav{
+            float: right;
+            padding: 3px 8%;
+        }
+        #sup-nav a{
+            margin-left: 1em;
+            font-size: 17px;
+            color: rgb(155, 155, 155);
+        }
+        #nav{
+            top: 0;
+            position: sticky;
+            clear: both;
+            background-color: white;
+            z-index: 2;
+        }
+        #main-nav{
+            display: flex;
+            justify-content: space-between;
+            height: 100px;
+            border: 1px solid rgb(233, 233, 233);
+            padding-left: 8%;
+            padding-right: 8%;
+        }
+        #main-nav-small{
+            display: flex;
+            justify-content: space-between;
+            display: none;
+            padding: 3.5%;
+            padding-top: 1%;
+            padding-bottom: 0.5%;
+        }
+        #logo-image-large{
+            width: 245px; height: auto;
+            line-height: 110px;
+            vertical-align:middle;
+        }
+        #logo-image-small{
+            width: 160px;
+        }
+        .container{
+            padding-top: 5px;
+            cursor: pointer;
+        }
+        .bar1, .bar2, .bar3 {
+            width: 29px;
+            height: 2.5px;
+            background-color: #333;
+            margin: 5.5px 0;
+        }
+        #main-nav a:not(.drop-content a){
+            line-height: 110px;
+            vertical-align: center;
+        }
+        #main-nav-anchors{
+            display: flex;
+            gap:70px;
+        }
+        #main-nav-anchors>div>a{
+            color: black;
+            font-size: 20px;
+            padding-left: 20px;
+        }
+        .drop-content{
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            top:102px;
+            border: 1px solid black;
+            padding:15px;
+            width:8.5%;
+            background-color: black;
+            display: none;
+        }
+        .drop-content a{
+            font-size:18px;
+            margin: 7px;
+            color:white;
+        }
+        .dropdown:hover .drop-content{
+            display: flex;
+        }
+        .drop-content>a:hover,.drop-content-small a:hover{
+            text-decoration:underline;
+        }
+        .dropdown-small{
+            display: flex;
+            flex-direction: column;
+            padding-top: 10px;
+        }
+        .dropdown-small>a{
+            color:rgb(95, 95, 95);
+            font-size: 18px;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 3.5%;
+        }
+        .dropdown-small:hover.dropdown-small>a{
+            background-color: black;
+            color: white;
+        }
+        .dropdown-small:hover .drop-content-small{
+            display: flex;
+        }
+        .drop-content-small{
+            display: flex;
+            flex-direction: column;
+            display: none;
+            padding-left: 3.8%;
+            padding-top: 3.5px;;
+            padding-bottom: 5px;
+            gap: 13px;
+        }
+        .drop-content-small a{
+            color:rgb(95, 95, 95);
+            font-size: 17px;
+        }
+        #navbar-small{
+            position: absolute;
+            display: none;
+            width: 100%;
+            background-color: white;
+        }
+        #navbar-small #first{
+            display: flex;
+            border: 1px solid rgb(233, 233, 233);
+            height: 40px;
+            align-items: center;
+            gap:25px;
+            padding-left: 3.5%;
+        }
+        #navbar-small #first div a{
+            color: rgb(155, 155, 155);
+            font-size: 14px;
+        }
+        #main-nav-small-all{
+            position: relative;
+        }
+        @media screen and (min-width: 1250px){
+            #main-nav-small-all{display: none;}
+        }
+        @keyframes down-anim{
+            from{
+                transform: translateY(-80%);
+                opacity: 0;
+            }
+        }
+        @keyframes up-anim{
+            from{
+                transform: translateY(80%);
+                opacity: 0;
+            }
+        }
+        #footer{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(51, 51, 51);
+            padding: 3% 7.9% 2% 7.9% ;
+        }
+        #footer p{
+            text-align: center;
+            font-size: 13px;
+            width: 100%;
+            color: #adadad;
+            line-height: 150%;
+        }
+        #footer a{
+            color: #e0e0e0;
+            font-size: 13px;
+            margin: 5px;
+        }
+        #footer-imgs{
+            display: flex;
+        }
+        #footer span{
+            font-size: 10px;
+            color: #adadad;
+            margin: 9px;
+        }
+        #footer-anchor-small{
+            display: none;
+        }
+        ::marker{
+            color: rgb(187, 187, 187);
+            font-size: 10px;
+        }
+        #title{
+            background-image: url('http://bdmp-004.cafe24.com/bizdemo99969/img/main/sub-visual03.jpg');
+            background-repeat: no-repeat;
+            background-size:cover;
+            padding: 6% 8% 6% 8%;
+            text-align: center;
+            vertical-align: center;
+        }
+        #title h2{
+            font-size: 3.5vw;
+            color: rgb(255, 255, 255);
+            text-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+            font-weight: normal;
+            margin-top: 0;
+        }
+        #title p{
+            color: rgb(255, 255, 255);
+            text-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+            font-size: 1.3vw;
+        }
+        @media screen and (max-width: 450px){
+            #article-board li{font-size: 11px;}
+            #article-aside li{font-size: 10px;}
+        }
+        #go-to-top{
+            position: fixed;
+            z-index: 99;
+            top: 92%;
+            left: 96vw;
+            display: none;
+            transition:0.5s;
+        }
+        #login{
+            padding: 5% 8% 5% 8%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1vw;
+        }
+        #title h2{
+            opacity: 0;
+            animation-name: down;
+            animation-duration: 1s;
+            animation-fill-mode:forwards;
+        }
+        #title p{
+            opacity: 0;
+            animation-name: up;
+            animation-duration: 1s;
+            animation-delay: .5s;
+            animation-fill-mode:forwards;
+        }
+        @keyframes up{
+            from{
+                transform:translateY(50%);
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
+        @keyframes down{
+            from{
+                transform:translateY(-50%);
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
+        #contact-us-nav{
+            display: flex;
+            justify-content: flex-start;
+            border-bottom: 1px solid black;
+            padding-left: 8%;
+            padding-right: 8%;
+            height: 40px;
+        }
+        #contact-us-nav p{
+            box-sizing: border-box;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            line-height: 40px;
+            vertical-align: middle;
+            border-right: 1px solid black;
+            padding-left: 1vw;
+            cursor: pointer;
+        }
+        #contact-us-nav p:nth-of-type(1){
+            background-image: url('http://bdmp-004.cafe24.com/bizdemo99969/img/common/btn-arrow.png');
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+        #contact-us-nav div{
+            position: relative;
+        }
+        #contact-us-nav ul{
+            /* box-sizing: border-box; */
+            position: absolute;
+            display: none;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            /* padding-left: 1vw; */
+            width: 100%;
+            background-color: rgb(255, 255, 255);
+            border-top: 1px solid black;
+            z-index: 3;
+        }
+        a{
+            color: black;
+        }
+        #contact-us-nav li{
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+            line-height: 40px;
+            vertical-align: middle;
+            border-right: 1px solid black;
+            padding-left: 1vw;
+            border-bottom: 1px solid black;
+            border-left: 1px solid black;
+        }
+        #contact-us-nav>a{
+            width: 5%;
+            color: white;
+            text-align: center;
+            background-color: rgb(59, 59, 59);
+            line-height: 40px;
+            vertical-align: middle;
+            border-right: 1px solid black;
+            border-left: 1px solid black;
+        }
+        #contact-us-nav>div{
+            width: 18%;
+        }
+        #contact-us-nav li:hover{
+            background-color: rgb(1, 9, 77);
+            color: white;
+        }
+        #contact-us-nav{
+            position: relative;
+        }
+        /*  */
+        #main-product{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5% 8% 5% 8%;
+        }
+        #main-product img{
+            width: 100%;
+        }
+        h3{
+            font-size: 24px;
+        }
+        #main-product>p{
+            font-size: 12px;
+            margin-bottom: 35px;
+        }
+        .product-articles{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 3vw;
+            padding-bottom: 3vw;
+            text-align: center;
+        }
+        .product-articles>a{
+            width: 23%;
+        }
+        #search-bar-sub{
+            align-self: flex-start;
+        }
+        #search-bar-sub select{
+            padding: 0.5vw;
+        }
+        #search-bar-sub input{
+            padding: 0.585vw;
+        }
+        #search-bar-sub input[type=image]{
+            padding: 0.5vw;
+        }
+        #search-bar-sub td{
+            padding: 0;
+        }
+        #search-bar-sub td:nth-of-type(3){
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        #search-bar-sub td input{
+            border: 1px solid black;
+        }
+        @media screen and (max-width: 1250px){
+            #sup-nav, #main-nav{display: none;}
+            #main-nav-small{display: flex;}
+            #article2,#article1,.article,#footer,#login,#contact-us-nav,.map-responsive,.article1,.article2,.article3,.article4,#main-product
+            {padding-left: 3.5%; padding-right: 3.5%;}
+            #product-photos{height: 46vw;}
+            .second-pic{gap:4px;}
+        }
+        @media screen and (max-width: 860px){
+            #product-photos{flex-direction: column; height: 100%; gap:0px}
+            .first-pic, .second-pic{width:auto;}
+            .second-pic{gap:6px}
+            .first-pic{height:93vw; margin-bottom: 1%;}
+            .img-box a{height: 45vw;}
+            #business-photos>div{width:49.5%; margin-bottom: 0.9%;}
+            #cs-pics,#board{width:100%; margin: 6px;}
+            #cs-pics{flex-direction: column;}
+            #footer div:nth-of-type(1){display: none;}
+            #footer-anchor-small{display: block;}
+            #contact-us-nav>a, #contact-us-nav>div:nth-of-type(1){display: none;}
+            #contact-us-nav{padding: 0; text-align: center;height: 6vw; border-bottom: 0;}
+            #contact-us-nav>div{height: 100%; width: 100%;background-color: rgb(163, 163, 163);}
+            #contact-us-nav-small>p{border-right: none; line-height: 6vw; vertical-align: middle;}
+            #contact-us-nav li{border-right: none; border-left: none; height: 6vw; line-height: 6vw;}
+            .article4>div{width: 100%;}
+            .product-articles>a{width:49%}
+        }
+    </style>
+</head>
+<body>
+    <a id="go-to-top"href="">
+        <div>
+            <img src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/icon-top.png" alt="">
+        </div>
+    </a>
+    <div id='wrap'>
+        <div id='sup-nav'>
+            <a href="index.html"><img src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/home01.png">HOME</a>
+            <a href="login.html">LOGIN</a>
+            <a href="join.html">JOIN</a>
+            <a href="">CONTACT US</a>
+        </div>
+        <div id ='nav'>
+            <div id='main-nav'>
+                <a href="index.html">
+                    <img id='logo-image-large'src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/logo.png" alt="logo">
+                </a>
+                <!-- 최대크기화면 -->
+                <div id="main-nav-anchors">
+                    <div class='dropdown'>
+                        <a href="">회사소개</a>
+                        <div class="drop-content">
+                            <a href="">회사개요</a>
+                            <a href="">CEO인사말</a>
+                            <a href="">오시는길</a>
+                        </div>
+                    </div>
+                    <div class='dropdown'>
+                        <a href="">사업분야</a>
+                        <div class="drop-content">
+                            <a href="">사업분야01</a>
+                            <a href="">사업분야02</a>
+                            <a href="">사업분야03</a>
+                            <a href="">사업분야04</a>
+                        </div>
+                    </div>
+                    <div class='dropdown'>
+                        <a href="">제품안내</a>
+                        <div class="drop-content">
+                            <a href="">제품안내01</a>
+                            <a href="">제품안내02</a>
+                            <a href="">제품안내03</a>
+                            <a href="">제품안내04</a>
+                        </div>
+                    </div>
+                    <div class='dropdown'>
+                        <a href="">커뮤니티</a>
+                        <div class="drop-content">
+                            <a href="">공지사항</a>
+                            <a href="">홍보자료</a>
+                            <a href="">채용안내</a>
+                        </div>
+                    </div>
+                    <div class='dropdown'>
+                        <a href="">고객지원</a>
+                        <div class="drop-content">
+                            <a href="">1:1문의</a>
+                            <a href="">묻고답하기</a>
+                            <a href="">FAQ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id='main-nav-small-all'>
+                <div id='main-nav-small'>
+                    <a href="index.html">
+                        <img id='logo-image-small'src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/logo-m.png" alt="logo">
+                    </a>
+                    <div class="container">
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </div>
+                </div>
+                <div id='navbar-small'>
+                    <div id='first'>
+                        <div>
+                            <a href="login.html"><img src='http://bdmp-004.cafe24.com/bizdemo99969/img/common/icon-member.png'> LOGIN</a>
+                        </div>
+                        <div>
+                            <a href="join.html"><img src='http://bdmp-004.cafe24.com/bizdemo99969/img/common/icon-join.png'> JOIN</a>
+                        </div>
+                    </div>
+                    <div id='second'>
+                        <div class='dropdown-small'>
+                            <a href="">회사소개</a>
+                            <div class="drop-content-small">
+                                <a href="">회사개요</a>
+                                <a href="">CEO인사말</a>
+                                <a href="">오시는길</a>
+                            </div>
+                        </div>
+                        <div class='dropdown-small'>
+                            <a href="">사업분야</a>
+                            <div class="drop-content-small">
+                                <a href="">사업분야01</a>
+                                <a href="">사업분야02</a>
+                                <a href="">사업분야03</a>
+                                <a href="">사업분야04</a>
+                            </div>
+                        </div>
+                        <div class='dropdown-small'>
+                            <a href="">제품안내</a>
+                            <div class="drop-content-small">
+                                <a href="">제품안내01</a>
+                                <a href="">제품안내02</a>
+                                <a href="">제품안내03</a>
+                                <a href="">제품안내04</a>
+                            </div>
+                        </div>
+                        <div class='dropdown-small'>
+                            <a href="">커뮤니티</a>
+                            <div class="drop-content-small">
+                                <a href="">공지사항</a>
+                                <a href="">홍보자료</a>
+                                <a href="">채용안내</a>
+                            </div>
+                        </div>
+                        <div class='dropdown-small'>
+                            <a href="">고객지원</a>
+                            <div class="drop-content-small">
+                                <a href="">1:1문의</a>
+                                <a href="">묻고답하기</a>
+                                <a href="">FAQ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id='main'>
+            <div id='title'>
+                <h2>PRODUCT</h2>
+                <p><a href=""><img src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/icon-home.png" alt=""></a> > 제품안내 > 제품안내01</p>
+            </div>
+            <div id='contact-us-nav'>
+                <a href="index.html">H</a>
+                <div>
+                    <p>제품안내</p>
+                    <ul class='ul-0'>
+                        <a href=""><li>회사소개</li></a>
+                        <a href=""><li>사업분야</li></a>
+                        <a href=""><li>제품안내</li></a>
+                        <a href=""><li>커뮤니티</li></a>
+                        <a href=""><li>고객지원</li></a> 
+                    </ul>
+                </div>
+                <div id='contact-us-nav-small'>
+                    <p>제품안내01</p>
+                    <ul class='ul-1'>
+                        <a href=""><li>제품안내01</li></a>
+                        <a href=""><li>제품안내02</li></a>
+                        <a href=""><li>제품안내03</li></a>
+                        <a href=""><li>제품안내04</li></a>
+                    </ul>
+                </div>
+            </div>
+            <div id='main-product'>
+                <h3>제품안내01</h3>
+                <p>The design and maintenance are excellent.</p>
+                <div class='product-articles'>
+                    <a href="product-01.html">
+                        <div>
+                            <div>
+                                <img src="http://bdmp-004.cafe24.com/bizdemo99969/component/board/board_10/u_image/57/460188342_bar-2421302.jpg" alt="">
+                            </div>
+                            <p>FS108</p>
+                        </div>
+                    </a>
+                    <a href="product-01.html">
+                        <div>
+                            <div>
+                                <img src="http://bdmp-004.cafe24.com/bizdemo99969/component/board/board_10/u_image/56/1300573813_product02.jpg" alt="">
+                            </div>
+                            <p>FS108</p>
+                        </div>
+                    </a>
+                    <a href="product-01.html">
+                        <div>
+                            <div>
+                                <img src="http://bdmp-004.cafe24.com/bizdemo99969/component/board/board_10/u_image/55/1275897643_whisky-2387726.jpg" alt="">
+                            </div>
+                            <p>FS108</p>
+                        </div>
+                    </a>
+                    <a href="product-01.html">
+                        <div>
+                            <div>
+                                <img src="http://bdmp-004.cafe24.com/bizdemo99969/component/board/board_10/u_image/54/1117905290_product04.jpg" alt="">
+                            </div>
+                            <p>FS108</p>
+                        </div>
+                    </a>
+                    <a href="product-01.html">
+                        <div>
+                            <div>
+                                <img src="http://bdmp-004.cafe24.com/bizdemo99969/component/board/board_10/u_image/57/460188342_bar-2421302.jpg" alt="">
+                            </div>
+                            <p>FS108</p>
+                        </div>
+                    </a>
+                    <a href="product-01.html">
+                        <div>
+                            <div>
+                                <img src="http://bdmp-004.cafe24.com/bizdemo99969/component/board/board_10/u_image/57/460188342_bar-2421302.jpg" alt="">
+                            </div>
+                            <p>FS108</p>
+                        </div>
+                    </a>
+                    <a href="product-01.html">
+                        <div>
+                            <div>
+                                <img src="http://bdmp-004.cafe24.com/bizdemo99969/component/board/board_10/u_image/57/460188342_bar-2421302.jpg" alt="">
+                            </div>
+                            <p>FS108</p>
+                        </div>
+                    </a>
+                    <a href="product-01.html">
+                        <div>
+                            <div>
+                                <img src="http://bdmp-004.cafe24.com/bizdemo99969/component/board/board_10/u_image/57/460188342_bar-2421302.jpg" alt="">
+                            </div>
+                            <p>FS108</p>
+                        </div>
+                    </a>
+                </div>
+                <div id='search-bar-sub'>
+                    <table>
+                        <form action="">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="title">제목</option>
+                                            <option value="description">내용</option>
+                                            <option value="writter">작성자</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text">
+                                    </td>
+                                    <td>
+                                        <input type="image" src='http://bdmp-004.cafe24.com/bizdemo99969/img/component/board/board_10/search.gif'>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id='footer'>
+            <div>
+                <a href="">회사소개</a><span>|</span><a href="">개인정보보호정책</a><span>|</span><a href="">이메일무단수집거부</a><span>|</span>
+                <a href="">묻고답하기</a><span>|</span><a href="">오시는길</a>
+            </div>
+            <div id="footer-anchor-small">
+                </span><a href="">개인정보보호정책</a><span>|</span><a href="">이메일무단수집거부</a>
+            </div>
+            <p>회사 : 파이브스톤, 주소 : 경기도 고양시 삼송로 193번길 28-3 하준빌딩 401호, 대표 : 김성용,<br>
+                고객지원 : 010-2709-0828, FAX : 070-777-5555, EMAIL : fivestone55@daum.net, 사업자등록번호 : 780-42-00047, 통신판매업 : 제2015-경기-00974호<br>
+                <br>COPYRIGHT(C) 2020 FIVESTONE. ALL RIGHT RESERVED.
+            </p>
+            <div id='footer-imgs'>
+                <a href="">
+                    <div>
+                        <img src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/mf-icon01.png" alt="">
+                    </div>
+                </a>
+                <a href="">
+                    <div>
+                        <img src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/mf-icon02.png" alt="">
+                    </div>
+                </a>
+                <a href="">
+                    <div>
+                        <img src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/mf-icon03.png" alt="">
+                    </div>
+                </a>
+                <a href="">
+                    <div>
+                        <img src="http://bdmp-004.cafe24.com/bizdemo99969/img/common/mf-icon04.png" alt="">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(()=>{
+            $('#main-nav-small .container').click(()=>{
+                $('#navbar-small').slideToggle('slow');
+            });
+            $('#go-to-top').on('click',()=>{
+            });
+            window.onscroll = ()=>{scrollFunction()};
+            function scrollFunction(){
+                if(window.innerWidth >= 1250){
+                    if(document.body.scrollTop > 50 || document.documentElement.scrollTop > 50){
+                        $('#go-to-top').css('display','block');
+                    }
+                }else{
+                    $('#go-to-top').css('display','none');
+                }
+            }
+            $('#contact-us-nav div').eq(0).on('click',()=>{
+                $('.ul-0').slideToggle();
+                $('.ul-1').slideUp();
+            })
+            $('#contact-us-nav div').eq(1).on('click',()=>{
+                $('.ul-1').slideToggle();
+                $('.ul-0').slideUp();
+            })
+            $('form').submit((event)=>{
+                if($('input[type=text]').val().length == 0){
+                    alert('검색어를 정확히 입력하세요.')
+                    event.preventDefault();
+                }
+            })
+        });
+    </script>
+</body>
+</html>

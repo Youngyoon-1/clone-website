@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            text-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+
+        }
+        #header{
+            color: white;
+            background-color: black;
+            height: 3vw;
+            vertical-align: middle;
+            line-height: 3vw;
+            padding: 1vw;
+            font-size: 2vw;
+        }
+        #wrap>div:nth-of-type(2){
+            margin-top: 2vw;
+            padding-left: 1vw;
+            font-size: 1.5vw;
+        }
+        #wrap>div:nth-of-type(3){
+            padding-left: 1vw;
+            font-size: 1.5vw;
+        }
+        #div-form{
+            background-color: beige;
+            padding: 1.5vw;
+        }
+        #div-form div{
+            margin: 1vw;
+            font-size: 1.5vw;
+        }
+        #div-form input{
+            font-size: 1.5vw;
+        }
+        form>div:nth-of-type(2){
+            padding: 2vw;
+            text-align: center;
+        }
+        #close{
+            text-align: end;
+            background-color: antiquewhite;
+        }
+        #close img{
+            vertical-align: middle;
+            margin: 1vw;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        window.onload=()=>{
+            var form = document.querySelector('form');
+            var btn = document.getElementById('submit');
+            btn.addEventListener('click',()=>{
+                if($('.input input').eq(0).val().length==0){
+                    alert("잘못된 형식입니다.")
+                }else{
+                    form.onsubmit();
+                }
+            })
+            $('#close').on('click',()=>{
+                this.close();
+            })
+        }
+    </script>
+</head>
+<body>
+    <div id='wrap'>
+        <div id='header'><span>아이디 찾기</span></div>
+        <div id=>
+            <span>&#183;</span><span>아이디를 잊어버리셨나요?</span>
+        </div>
+        <div>
+            <span>회원님의 성명과 이메일을 입력하여 주세요.</span>
+        </div>
+        <form action="">
+            <div id='div-form'>
+                <div class='input'>
+                    <label for="">&#183; 이름  </label><input type="text">
+                </div>
+                <div class='input'>
+                    <label for="">&#183; 이메일  </label><input type="email">
+                </div>
+            </div>
+            <div id='submit'>
+                <input type="image" alt src='http://bdmp-004.cafe24.com/cimg/btn_confirm.gif'>
+            </div>
+        </form>
+        <div id='close'>
+            <a href=""><img src="	http://bdmp-004.cafe24.com/cimg/btn_close.gif" alt=""></a>
+        </div>
+    </div>
+</body>
+</html>
